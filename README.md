@@ -4,9 +4,9 @@ Pro práci s logy je nutné mít nainstalovanou databázi MySQL. Nastavení data
 
 Instalace: 
 
-composer install
+* composer install
 
-php bin/console doctrine:database:create
+* php bin/console doctrine:database:create
 
-php bin/console doctrine:schema:update --force
+* php bin/console doctrine:schema:update --force
 
