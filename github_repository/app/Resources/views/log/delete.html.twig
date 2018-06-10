@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Výpis vyhledávání{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <br>
+        <div class="col-sm-2"><a href="{{ path('homepage') }}" class="btn btn-primary">Zpět</a></div>
+        <div class="col-sm-4">
+            {% for msg in app.session.flashBag.get('error') %}
+                <div class="alert alert-danger">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+            {{ form_start(deleteForm) }}
+            {{  form_widget(deleteForm) }}
+            <button class="btn btn-lg btn-danger btn-block" formnovalidate type="submit">Vymazat</button>
+            {{ form_end(deleteForm) }}
+        </div>
+    </div>
+{% endblock %}

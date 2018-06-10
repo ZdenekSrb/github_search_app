@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Výpis repozitářů{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <br>
+        <div class="col-sm-2"><a href="{{ path('homepage') }}" class="btn btn-primary">Zpět</a></div>
+        <div class="col-sm-10">
+            {% if (repo_count) > 0 %}
+        <table id="articles" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Jméno repozitáře</th>
+                <th>Popis repozitáře</th>
+                <th>Datum vytvoření</th>
+                <th>Počet zobrazených repozitářů ({{ repo_count }})</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for repo in repos %}
+                <tr>
+                    <td>{{ repo.name }}</td>
+                    <td>{{ repo.description }}</td>
+                    <td colspan="2">{{ repo.created_at | date("d.m.Y") }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+            {% else %}
+                <div class="panel panel-default">
+                    <div class="panel-body">Tento uživatel nemá veřejné repozitáře.</div>
+                </div>
+            {% endif %}
+        </div>
+        </div>
+    </div
+{% endblock %}

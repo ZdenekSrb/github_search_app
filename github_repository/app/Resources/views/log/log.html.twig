@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Výpis vyhledávání{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+{% endblock %}
+
+{% block body %}
+
+        <div class="row">
+            <br>
+            <div class="col-sm-2"><a href="{{ path('homepage') }}" class="btn btn-primary">Zpět</a></div>
+            <div class="col-sm-10">
+                {% if logs is not empty %}
+                    <table id="articles" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Hledané jméno</th>
+                            <th>IP uživatele</th>
+                            <th>Datum a čas hledání</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for log in logs %}
+                            <tr>
+                                <td>{{ log.UserName }}</td>
+                                <td>{{ log.Ip }}</td>
+                                <td>{{ log.Created | date("d.m.Y H:i") }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="panel panel-default">
+                        <div class="panel-body">Nejsou uloženy žádné logy.</div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+{% endblock %}

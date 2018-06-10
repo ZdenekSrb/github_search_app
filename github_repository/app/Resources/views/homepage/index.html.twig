@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+<div class="text-center">
+<div class="center-block">
+    <div class="col-md-5 col-md-offset-3">
+    {% for msg in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger">
+            {{ msg }}
+        </div>
+    {% endfor %}
+    {% for msg in app.session.flashBag.get('success') %}
+            <div class="alert alert-success">
+                {{ msg }}
+            </div>
+        {% endfor %}
+    {{ form_start(searchForm) }}
+    {{  form_widget(searchForm) }}
+    <button class="btn btn-lg btn-success btn-block" formnovalidate type="submit">Vyhledat</button>
+    <br>
+    <a href="{{ path('search_log') }}" class="btn btn-lg btn-primary btn-block">Log vyhledávání</a>
+    <br>
+    <a href="{{ path('delete_log') }}" class="btn btn-lg btn-warning btn-block">Promazat log vyhledávání</a>
+    {{ form_end(searchForm) }}
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
