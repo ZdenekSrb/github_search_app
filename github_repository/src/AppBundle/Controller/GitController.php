@@ -16,6 +16,7 @@ class GitController extends Controller
      */
     public function indexAction(Request $request)
     {
+        //creating form for user name search on github
         $form = $this->createForm(FindUserForm::class);
 
         //handle POST request
@@ -23,6 +24,7 @@ class GitController extends Controller
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            //load data from form, adding user ip, date and saving to DB
             $user_name = $form->getData();
             $user_name->setIp();
             $user_name->setCreated();
@@ -30,15 +32,18 @@ class GitController extends Controller
             $em->persist($user_name);
             $em->flush();
 
+            //getting user info from github api
             $profile = $this->get('app.gitapi')->getProfile($user_name->getUserName());
 
             if (!is_array($profile))
             {
+                //user not found
                 $this->addFlash('error', $profile.' uživatel nenalezen');
                 return $this->redirectToRoute('homepage');
             }
             else
             {
+                //redirecting to route that load all public repositories
                 return $this->redirectToRoute('repository_user', ['username' => $profile['login']]);
             }
         }
@@ -60,6 +65,7 @@ class GitController extends Controller
      */
     public function listAction()
     {
+        //getting data for log
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery('SELECT l.id, l.UserName, l.Created, l.Ip FROM AppBundle:UserName l ORDER BY l.Created DESC');
         $logs = $query->getResult();
@@ -72,6 +78,7 @@ class GitController extends Controller
      */
     public function deleteAction(Request $request)
     {
+        //creating form for delete in log
         $form = $this->createForm(DeleteLogForm::class);
 
         //handle POST request
@@ -79,6 +86,7 @@ class GitController extends Controller
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            //deleting data from DB
             $hour_number = $form->getData();
             $delete_date = date_sub(new \DateTime("now"), new \DateInterval('P0YT'.$hour_number->getHourNumber().'H'));
             $em = $this->getDoctrine()->getManager();
